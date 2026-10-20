@@ -1,0 +1,42 @@
+# Self-hosting stack for luodaint (Dokploy). Secrets come from Dokploy env (compose env), never from git.
+services:
+  app:
+    build:
+      context: .
+      args:
+        APP_URL: ${APP_URL}
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+      - SUPPRESSION_HASH_KEY=${SUPPRESSION_HASH_KEY}
+      - CREDENTIALS_ENCRYPTION_KEY=${CREDENTIALS_ENCRYPTION_KEY}
+      - APP_URL=${APP_URL}
+      - ADMIN_EMAILS=${ADMIN_EMAILS}
+      - ALLOWED_EMAILS=${ALLOWED_EMAILS}
+      - EMAIL_FROM=${EMAIL_FROM}
+      - SENDING_ENABLED=${SENDING_ENABLED:-false}
+      - EMAIL_PROVIDER=ses
+      - SES_REGION=${SES_REGION}
+      - SES_ACCESS_KEY_ID=${SES_ACCESS_KEY_ID}
+      - SES_SECRET_ACCESS_KEY=${SES_SECRET_ACCESS_KEY}
+      - SES_AWS_ACCOUNT_ID=${SES_AWS_ACCOUNT_ID}
+      - SES_SNS_TOPIC_ARN=${SES_SNS_TOPIC_ARN:-}
+      - CRON_SECRET=${CRON_SECRET}
+      - QSTASH_TOKEN=${QSTASH_TOKEN:-}
+      - QSTASH_CURRENT_SIGNING_KEY=${QSTASH_CURRENT_SIGNING_KEY:-}
+      - QSTASH_NEXT_SIGNING_KEY=${QSTASH_NEXT_SIGNING_KEY:-}
+      - QSTASH_URL=${QSTASH_URL:-}
+    ports:
+      - "3001:3000"
+    depends_on:
+      - mongo
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7
+    volumes:
+      - mongo-data:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongo-data:
