@@ -30,6 +30,9 @@ const newsletterSchema = new mongoose.Schema(
 			verifiedAt: { type: Date },
 		},
 		description: { type: String, trim: true },
+		// Optional archive-page SEO overrides; the name and description stay the on-page defaults.
+		seoTitle: { type: String, trim: true },
+		seoDescription: { type: String, trim: true },
 		socialLinks: [{ type: String, trim: true }],
 		// The archive's author page; the author's name is fromName.
 		author: {

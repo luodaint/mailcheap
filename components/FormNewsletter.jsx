@@ -27,7 +27,7 @@ import {
 	getWebsiteAddress,
 } from "@/lib/newsletter-form";
 import { getSlugFormatProblem } from "@/lib/newsletter-settings";
-import { MAX_AUTHOR_BIO_LENGTH, MAX_DESCRIPTION_LENGTH } from "@/lib/newsletters";
+import { MAX_AUTHOR_BIO_LENGTH, MAX_DESCRIPTION_LENGTH, MAX_SEO_DESCRIPTION_LENGTH, MAX_SEO_TITLE_LENGTH } from "@/lib/newsletters";
 import { UNSUBSCRIBE_PLACEHOLDER, renderEmail } from "@/lib/render-email";
 import { getSharedAddress } from "@/lib/sender-rules";
 import { slugify } from "@/lib/slug";
@@ -637,6 +637,25 @@ function SectionWebsite({ draft, set, update, newsletter, sharedDomain, appUrl, 
 						maxLength={MAX_DESCRIPTION_LENGTH}
 						placeholder="One idea about building things, every Sunday."
 						onChange={update("description")}
+					/>
+				</Field>
+				<Field label="SEO title" hint="Overrides the archive page's browser-tab title and search listing. The page's headline stays the name.">
+					<Input
+						name="seoTitle"
+						value={draft.seoTitle}
+						maxLength={MAX_SEO_TITLE_LENGTH}
+						placeholder="Leave empty to use the name"
+						onChange={update("seoTitle")}
+					/>
+				</Field>
+				<Field label="SEO description" hint="Overrides the archive page's meta description in search results.">
+					<Textarea
+						name="seoDescription"
+						value={draft.seoDescription}
+						rows={2}
+						maxLength={MAX_SEO_DESCRIPTION_LENGTH}
+						placeholder="Leave empty to use the description"
+						onChange={update("seoDescription")}
 					/>
 				</Field>
 				<Field label="Author bio" hint="Under your name on the author page">
